@@ -2,10 +2,6 @@
 const portalIntro = document.querySelector("#portalIntro");
 // Select the project list container.
 const projectList = document.querySelector("#projectList");
-// Select the chart grid container.
-const chartGrid = document.querySelector("#chartGrid");
-// Select the email example container.
-const emailExample = document.querySelector("#emailExample");
 // Select the admin panel.
 const adminPanel = document.querySelector("#adminPanel");
 // Select the admin project form.
@@ -64,13 +60,6 @@ function renderProjects(data) {
     adminPanel.scrollIntoView({ behavior: "smooth" });
   }));
 }
-// Render email marketing charts and example.
-function renderEmailMarketing(info) {
-  // Render simple chart cards.
-  chartGrid.innerHTML = info.metrics.map(item => `<article><strong>${escapeHtml(item.value)}</strong><span>${escapeHtml(item.label)}</span></article>`).join("");
-  // Render the example email content.
-  emailExample.innerHTML = `<h3>Example Campaign</h3><p><b>Subject:</b> ${escapeHtml(info.example.subject)}</p><p><b>Preheader:</b> ${escapeHtml(info.example.preheader)}</p><p>${escapeHtml(info.example.body)}</p>`;
-}
 // Load portal data from the backend.
 async function loadMyWork() {
   // Try to fetch the logged-in user's work.
@@ -88,13 +77,9 @@ async function loadMyWork() {
     if (!response.ok || !result.ok) throw new Error(result.message || "Please login first.");
     // Render the project cards.
     renderProjects(result);
-    // Render the email marketing suggestion panel.
-    renderEmailMarketing(result.emailMarketing);
   } catch (error) {
     // Show a login prompt when the user is not signed in.
     projectList.innerHTML = `<article class="portal-card reveal is-visible"><h2>Login required.</h2><p>${escapeHtml(error.message)}</p><a class="button primary" href="login.html">Login or Sign Up</a></article>`;
-    // Render fallback email marketing content.
-    renderEmailMarketing({ metrics: [{ label: "Open Rate", value: "42%" }, { label: "Click Rate", value: "18%" }, { label: "Leads", value: "31" }], example: { subject: "This month only: launch your new offer", preheader: "A simple campaign that turns attention into replies.", body: "I build welcome emails, promo campaigns, reminders, and monthly reports so your audience keeps hearing from your brand." } });
   }
 }
 // Listen for admin project updates.
