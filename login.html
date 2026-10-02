@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!-- Tell the browser this is a modern HTML document. -->
+<html lang="en">
+<!-- Start the login page. -->
+<head>
+  <!-- Support standard text characters. -->
+  <meta charset="UTF-8" />
+  <!-- Make the page responsive. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Describe the login page. -->
+  <meta name="description" content="Client portal login for Saniweb project progress and updates." />
+  <!-- Set the page title. -->
+  <title>Client Portal | Sanele Mazibuko</title>
+  <!-- Connect to Google Fonts. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <!-- Connect to the font asset host. -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Load the font pairing. -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <!-- Load shared styles. -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<!-- End the setup area. -->
+<body>
+  <!-- Add the animated pointer glow. -->
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <!-- Add the shared header. -->
+  <header class="site-header"><nav class="nav-shell" aria-label="Main navigation"><a class="brand" href="index.html" aria-label="Sanele Mazibuko home"><span class="brand-mark">SM</span><span class="brand-name">Sanele Mazibuko</span></a><div class="nav-links"><a href="index.html">Home</a><a href="services.html">Services</a><a href="work.html">Work</a><a href="process.html">Process</a><a href="about.html">About</a><a href="contact.html">Contact</a><a class="nav-portal" href="login.html">Client Portal</a></div></nav></header>
+  <!-- Start the login content. -->
+  <main>
+    <!-- Add the login page hero. -->
+    <section class="page-hero section-wrap reveal">
+      <!-- Label the page. -->
+      <p class="eyebrow dark">Client Access</p>
+      <!-- Add the page headline. -->
+      <h1>Track your website, system, or campaign progress.</h1>
+      <!-- Explain how the portal works. -->
+      <p class="hero-copy">Create an account with the same email you used on the contact form, then open My Work to see your requests and progress links.</p>
+    </section>
+    <!-- Hold login and signup forms. -->
+    <section class="portal-grid section-wrap no-top">
+      <!-- Add the signup form. -->
+      <form class="portal-card reveal" id="signupForm">
+        <!-- Name the form. -->
+        <h2>Sign Up</h2>
+        <!-- Collect the user's name. -->
+        <label><span>Name</span><input name="name" type="text" placeholder="Your name" required /></label>
+        <!-- Collect the user's email. -->
+        <label><span>Email</span><input name="email" type="email" placeholder="you@example.com" required /></label>
+        <!-- Collect the user's password. -->
+        <label><span>Password</span><input name="password" type="password" placeholder="At least 6 characters" required /></label>
+        <!-- Submit the signup form. -->
+        <button class="button primary full" type="submit">Create Account</button>
+        <!-- Show signup status. -->
+        <p class="form-status" id="signupStatus" role="status"></p>
+      </form>
+      <!-- Add the login form. -->
+      <form class="portal-card reveal" id="loginForm">
+        <!-- Name the form. -->
+        <h2>Login</h2>
+        <!-- Collect the login email. -->
+        <label><span>Email</span><input name="email" type="email" placeholder="you@example.com" required /></label>
+        <!-- Collect the login password. -->
+        <label><span>Password</span><input name="password" type="password" placeholder="Your password" required /></label>
+        <!-- Submit the login form. -->
+        <button class="button primary full" type="submit">Login</button>
+        <!-- Reveal the owner login with a subtle hidden trigger. -->
+        <button class="hidden-admin-trigger" id="adminReveal" type="button" aria-label="Owner login">.</button>
+        <!-- Show login status. -->
+        <p class="form-status" id="loginStatus" role="status"></p>
+      </form>
+      <!-- Add the hidden owner login form. -->
+      <form class="portal-card admin-login is-hidden" id="adminLoginForm">
+        <!-- Name the hidden form. -->
+        <h2>Owner Login</h2>
+        <!-- Explain the private access. -->
+        <p>Private Saniweb management access.</p>
+        <!-- Collect the owner email. -->
+        <label><span>Owner Email</span><input name="email" type="email" value="s.manqobamazibuko@gmail.com" required /></label>
+        <!-- Collect the owner password. -->
+        <label><span>Owner Password</span><input name="password" type="password" placeholder="Admin password" required /></label>
+        <!-- Submit the owner login. -->
+        <button class="button primary full" type="submit">Open Admin</button>
+        <!-- Show owner login status. -->
+        <p class="form-status" id="adminLoginStatus" role="status"></p>
+      </form>
+    </section>
+  </main>
+  <!-- Add shortcut and social links above the footer. -->
+  <section class="pre-footer section-wrap"><div class="shortcut-links" aria-label="Shortcut links"><a href="index.html">Home</a><a href="services.html">Services</a><a href="work.html">Work</a><a href="process.html">Process</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="login.html">Client Portal</a></div><div class="social-links" aria-label="Social links"><a href="https://pin.it/64vM7cFOm" target="_blank" rel="noopener">Pinterest</a><a href="https://www.instagram.com/might.be.sani?stkn=MWJxbGgycHRqeTBucQ==" target="_blank" rel="noopener">Instagram</a><a href="https://github.com/Manqoba275" target="_blank" rel="noopener">GitHub</a></div></section>
+  <!-- Add the shared footer. -->
+  <footer class="site-footer"><div class="footer-shell"><p>Email: s.manqobamazibuko@gmail.com | Cell: 068 250 8384</p><p>Sanele Mazibuko | Tembisa, Gauteng, South Africa | &copy; 2026</p></div></footer>
+  <!-- Load shared scripts. -->
+  <script src="script.js"></script>
+  <!-- Load login scripts. -->
+  <script src="auth.js"></script>
+</body>
+<!-- End the login page. -->
+</html>

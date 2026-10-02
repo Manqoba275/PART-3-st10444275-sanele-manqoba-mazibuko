@@ -1,0 +1,1601 @@
+/* Use border-box sizing so spacing is easier to reason about. */
+* { box-sizing: border-box; }
+/* Define the main design tokens used across the website. */
+:root {
+  --ink: #f4f7f6;
+  --muted: #a5b0ad;
+  --paper: #070908;
+  --white: #ffffff;
+  --line: rgba(255, 255, 255, 0.14);
+  --accent: #00e0c7;
+  --accent-2: #ff5a3d;
+  --deep: #050706;
+  --panel: #101413;
+  --panel-2: #161c1a;
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+}
+/* Smooth scroll creates a polished section-jump experience. */
+html { scroll-behavior: smooth; }
+/* Style the full page with a premium neutral base. */
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(0, 224, 199, 0.12), transparent 28%),
+    radial-gradient(circle at 82% 36%, rgba(255, 90, 61, 0.08), transparent 26%),
+    var(--paper);
+  font-family: "Inter", Arial, sans-serif;
+  line-height: 1.6;
+}
+/* Make images responsive by default. */
+img { max-width: 100%; display: block; }
+/* Keep links visually clean and inherit nearby color. */
+a { color: inherit; text-decoration: none; }
+/* Add an animated glow that follows the pointer. */
+.cursor-glow {
+  position: fixed;
+  width: 80px;
+  height: 80px;
+  left: var(--cursor-x, 50%);
+  top: var(--cursor-y, 50%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(0, 224, 199, 0.07), transparent 68%);
+  z-index: 1;
+  transition: opacity 0.8s ease;
+}
+/* Keep the header fixed so customers can contact quickly. */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 18px clamp(16px, 4vw, 48px);
+}
+/* Create a glassy navigation shell. */
+.nav-shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: var(--white);
+  background: rgba(5, 7, 6, 0.42);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(18px);
+}
+/* Align the logo and brand name. */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+/* Turn the initials into a compact animated name mark. */
+.brand-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  color: var(--deep);
+  background: linear-gradient(135deg, var(--accent), #f7fff9 52%, var(--accent-2));
+  box-shadow: 0 0 34px rgba(0, 224, 199, 0.26);
+  animation: markPulse 4.8s ease-in-out infinite;
+}
+/* Keep the typed name prominent without needing a logo image. */
+.brand-name {
+  max-width: 220px;
+  line-height: 1.05;
+}
+/* Arrange navigation links horizontally. */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.8vw, 22px);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.92rem;
+}
+/* Animate navigation links on hover. */
+.nav-links a {
+  position: relative;
+  padding: 8px 0;
+  transition: color 0.75s ease, transform 0.75s ease;
+}
+/* Draw a smooth hover line under header links. */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.75s ease;
+}
+/* Lift and brighten links when hovered. */
+.nav-links a:hover {
+  color: #9ffbf0;
+  transform: translateY(-2px);
+}
+/* Reveal the hover line under header links. */
+.nav-links a:hover::after {
+  transform: scaleX(1);
+}
+/* Make the client portal secondary but easy to find. */
+.nav-links .nav-portal {
+  padding: 9px 12px;
+  border: 1px solid rgba(0, 224, 199, 0.34);
+  border-radius: 8px;
+  color: var(--deep);
+  background: var(--accent);
+  font-weight: 900;
+}
+.nav-links .nav-portal::after { display: none; }
+.nav-links .nav-portal:hover {
+  color: var(--deep);
+  background: #d7fff9;
+}
+/* Style the small header call to action. */
+.nav-cta {
+  padding: 10px 14px;
+  border-radius: 32px;
+  color: var(--deep);
+  background: var(--accent);
+  font-weight: 700;
+  transition: transform 0.75s ease, background 0.75s ease;
+}
+/* Add button movement on hover. */
+.nav-cta:hover {
+  transform: translateY(-2px);
+  background: #d7fff9;
+}
+/* Define full-width bands used by hero and contact areas. */
+.section-band {
+  position: relative;
+  overflow: hidden;
+}
+/* Define the default inner page width. */
+.section-wrap {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+/* Build a strong first viewport hero. */
+.hero {
+  min-height: 94vh;
+  display: grid;
+  align-items: end;
+  padding: 150px clamp(16px, 4vw, 48px) 38px;
+  color: var(--white);
+}
+/* Split the home hero into text and image columns. */
+.hero-split {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.72fr);
+  gap: clamp(28px, 5vw, 76px);
+  align-items: center;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+/* Position the background image behind hero content. */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  transition: filter 1.4s ease, transform 1.4s ease;
+}
+/* Blur the hero background slightly after the visitor starts scrolling. */
+body.is-scrolled .hero-bg {
+  filter: blur(8px) brightness(0.82);
+  transform: scale(1.04);
+}
+/* Create hero contrast with layered darkness. */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(3, 5, 5, 0.94), rgba(3, 5, 5, 0.7), rgba(3, 5, 5, 0.9)),
+    linear-gradient(180deg, rgba(0, 224, 199, 0.12), rgba(255, 90, 61, 0.06));
+  z-index: 0;
+}
+/* Position hero content above the background. */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: min(760px, 100%);
+  margin: 0;
+  padding-bottom: 32px;
+  animation: slideInText 1.4s ease both;
+}
+/* Style the image placed beside the homepage text. */
+.hero-visual {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+}
+/* Frame the code image with a polished dark treatment. */
+.hero-visual img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border: 0;
+  border-radius: 32px;
+  box-shadow: var(--shadow);
+  filter: saturate(1.05) contrast(1.08);
+  animation: imageDrift 9s ease-in-out infinite;
+  transition: transform 0.9s ease, filter 0.9s ease, border-color 0.9s ease;
+}
+/* Make the homepage image respond when hovered. */
+.hero-visual:hover img {
+  animation: none;
+  border-color: rgba(0, 224, 199, 0.54);
+  filter: saturate(1.18) contrast(1.12);
+  transform: translateY(-8px) scale(1.02);
+}
+/* Add a small floating badge over the homepage image. */
+.hero-visual-badge {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  max-width: calc(100% - 36px);
+  padding: 10px 12px;
+  border: 1px solid rgba(0, 224, 199, 0.32);
+  border-radius: 8px;
+  color: var(--deep);
+  background: linear-gradient(135deg, var(--accent), #b8fff5);
+  font-weight: 800;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28);
+}
+/* Style section labels. */
+.eyebrow {
+  margin: 0 0 16px;
+  color: #9ffbf0;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+/* Make dark-section labels fit light backgrounds. */
+.eyebrow.dark { color: var(--accent); }
+/* Style the main hero heading. */
+h1 {
+  margin: 0;
+  max-width: 980px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(3rem, 7vw, 6.2rem);
+  line-height: 0.94;
+  letter-spacing: 0;
+}
+/* Style standard section headings. */
+h2 {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2.15rem, 5vw, 4.2rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+/* Style inner-page hero sections. */
+.page-hero {
+  padding: 164px 0 56px;
+}
+/* Keep page hero text readable. */
+.page-hero h1 {
+  max-width: 980px;
+  font-size: clamp(2.7rem, 7vw, 6rem);
+}
+/* Make inner-page hero copy fit the dark theme. */
+.page-hero .hero-copy {
+  color: var(--muted);
+}
+/* Remove top padding when a section follows a page hero. */
+.no-top {
+  padding-top: 30px;
+}
+/* Add breathing room for full-width inner page bands. */
+.page-band {
+  padding-top: 78px;
+}
+/* Style smaller card headings. */
+h3 {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+/* Style hero supporting text. */
+.hero-copy {
+  max-width: 720px;
+  margin: 24px 0 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+}
+/* Arrange hero buttons. */
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 34px;
+}
+/* Keep the homepage trust line close to the action buttons. */
+.trust-line {
+  margin: 18px 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 800;
+}
+/* Create a reusable button style. */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.75s ease, box-shadow 0.75s ease, background 0.75s ease;
+}
+/* Style the main action button. */
+.button.primary {
+  color: var(--deep);
+  background: linear-gradient(135deg, var(--accent), #b8fff5);
+  box-shadow: 0 16px 44px rgba(0, 224, 199, 0.28);
+  position: relative;
+  overflow: hidden;
+}
+/* Add a subtle shine across primary buttons. */
+.button.primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.62), transparent 56%);
+  transform: translateX(-120%);
+  transition: transform 0.9s ease;
+}
+.button.primary:hover::after { transform: translateX(120%); }
+/* Style secondary transparent buttons. */
+.button.ghost {
+  color: var(--white);
+  border: 1px solid rgba(0, 224, 199, 0.32);
+  background: rgba(0, 224, 199, 0.08);
+}
+/* Lift buttons when hovered. */
+.button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 50px rgba(17, 19, 21, 0.22);
+}
+/* Layout hero metrics in a glass strip. */
+.hero-metrics {
+  position: relative;
+  z-index: 2;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+/* Space the moved homepage metrics below the What I Do copy. */
+.service-metrics {
+  margin: -16px 0 34px;
+}
+/* Space each metric cell. */
+.hero-metrics article {
+  padding: 0;
+  border-right: 0;
+}
+/* Remove the final right border. */
+.hero-metrics article:last-child { border-right: 0; }
+/* Make metric values stand out. */
+.hero-metrics strong {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2rem;
+}
+/* Style metric captions. */
+.hero-metrics span {
+  color: rgba(255, 255, 255, 0.74);
+}
+/* Add generous spacing to service and process sections. */
+.services,
+.process {
+  padding: 108px 0;
+}
+/* Keep intro text readable. */
+.section-heading {
+  max-width: 760px;
+  margin-bottom: 42px;
+}
+/* Style section intro paragraphs. */
+.section-heading p:last-child {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+/* Build the responsive services grid. */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+/* Limit compact homepage cards to three columns. */
+.compact-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+/* Style individual service cards. */
+.service-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 310px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(22, 28, 26, 0.96), rgba(10, 14, 13, 0.96));
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.24);
+  transition: transform 0.9s ease, box-shadow 0.9s ease, border-color 0.9s ease, opacity 0.9s ease;
+}
+/* Add a premium moving edge glow to service cards. */
+.service-card::before,
+.project-card::before,
+.portal-card::before,
+.contact-form::before,
+.admin-panel::before,
+.email-marketing-panel::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(0, 224, 199, 0.38), transparent 34%, rgba(255, 90, 61, 0.22));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+.service-card:hover::before,
+.project-card:hover::before,
+.portal-card:hover::before,
+.contact-form:hover::before,
+.admin-panel:hover::before,
+.email-marketing-panel:hover::before {
+  opacity: 1;
+}
+/* Lift service cards on hover. */
+.service-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(0, 224, 199, 0.45);
+  box-shadow: var(--shadow);
+}
+/* Shrink homepage service cards when another card is being hovered. */
+.compact-grid:has(.service-card:hover) .service-card {
+  opacity: 0.58;
+  transform: scale(0.92);
+}
+/* Expand the active homepage service card above the others. */
+.compact-grid:has(.service-card:hover) .service-card:hover {
+  position: relative;
+  z-index: 3;
+  opacity: 1;
+  transform: translateY(-10px) scale(1.08);
+  border-color: rgba(0, 224, 199, 0.56);
+  box-shadow: var(--shadow);
+}
+/* Style numeric service icons. */
+.service-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 52px;
+  border-radius: 8px;
+  color: var(--deep);
+  background: var(--accent);
+  font-weight: 800;
+}
+/* Style service descriptions. */
+.service-card p {
+  margin: 18px 0 0;
+  color: var(--muted);
+}
+/* Shared grids for business proof sections. */
+.selected-work,
+.why-section,
+.who-section,
+.about-preview,
+.about-detail {
+  padding-bottom: 108px;
+}
+/* Build case-study and about layouts. */
+.case-card,
+.about-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(24px, 5vw, 58px);
+  align-items: center;
+  padding: 26px;
+  border: 1px solid rgba(0, 224, 199, 0.16);
+  border-radius: 8px;
+  background: linear-gradient(145deg, rgba(22, 28, 26, 0.96), rgba(9, 12, 11, 0.98));
+  box-shadow: var(--shadow);
+}
+.case-card img,
+.about-layout img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 8px;
+}
+/* Keep feature lists clean and easy to scan. */
+.feature-list {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  margin: 22px 0;
+  padding: 0;
+}
+.feature-list li {
+  position: relative;
+  padding-left: 28px;
+  color: var(--ink);
+  font-weight: 700;
+}
+.feature-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  background: var(--accent);
+  box-shadow: 0 0 18px rgba(0, 224, 199, 0.24);
+}
+/* Layout reasons and audience cards. */
+.reason-grid,
+.help-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+.reason-card,
+.help-card,
+.package-card {
+  position: relative;
+  overflow: hidden;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(22, 28, 26, 0.96), rgba(10, 14, 13, 0.96));
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+  transition: transform 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+}
+.reason-card:hover,
+.help-card:hover,
+.package-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(0, 224, 199, 0.45);
+  box-shadow: var(--shadow);
+}
+.reason-card span {
+  display: block;
+  margin-bottom: 34px;
+  color: var(--accent);
+  font-weight: 900;
+}
+.reason-card p,
+.help-card p,
+.package-card p {
+  color: var(--muted);
+}
+/* Style package pricing. */
+.package-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.package-card {
+  display: flex;
+  min-height: 520px;
+  flex-direction: column;
+}
+.featured-package {
+  border-color: rgba(0, 224, 199, 0.44);
+  background:
+    linear-gradient(145deg, rgba(0, 224, 199, 0.14), rgba(255, 90, 61, 0.08)),
+    linear-gradient(180deg, rgba(22, 28, 26, 0.98), rgba(10, 14, 13, 0.98));
+}
+.price {
+  display: block;
+  margin: 8px 0 8px;
+  color: #9ffbf0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.45rem;
+}
+.package-card .button {
+  margin-top: auto;
+}
+/* Convert section calls to action into strong closing panels. */
+.section-cta,
+.final-cta-panel {
+  margin-top: 48px;
+  padding: 30px;
+  border: 1px solid rgba(0, 224, 199, 0.18);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(0, 224, 199, 0.12), rgba(255, 90, 61, 0.08)),
+    rgba(10, 14, 13, 0.96);
+}
+.section-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.final-cta {
+  padding-bottom: 108px;
+}
+.final-cta-panel {
+  display: grid;
+  gap: 18px;
+  text-align: center;
+  place-items: center;
+}
+/* Style the dark portfolio proof band. */
+.dark-panel {
+  background:
+    linear-gradient(135deg, rgba(13, 18, 17, 0.98), rgba(5, 7, 6, 0.98)),
+    var(--deep);
+}
+/* Lay out the work section. */
+.work-layout {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(34px, 6vw, 84px);
+  align-items: center;
+  padding: 112px 0;
+}
+/* Style the work copy paragraph. */
+.work-copy p:not(.eyebrow) {
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+/* Remove default list spacing and bullets. */
+.check-list {
+  list-style: none;
+  padding: 0;
+  margin: 26px 0 0;
+  display: grid;
+  gap: 12px;
+}
+/* Add custom check items. */
+.check-list li {
+  position: relative;
+  padding-left: 30px;
+  color: var(--ink);
+  font-weight: 700;
+}
+/* Draw the custom check marker. */
+.check-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: var(--accent);
+}
+/* Create the portfolio visual area. */
+.showcase {
+  position: relative;
+  min-height: 520px;
+}
+/* Style the showcase image. */
+.showcase > img {
+  width: 82%;
+  height: 520px;
+  object-fit: cover;
+  margin-left: auto;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+/* Style the floating code card. */
+.code-card {
+  position: absolute;
+  left: 0;
+  bottom: 38px;
+  width: min(360px, 88%);
+  padding: 18px;
+  border-radius: 8px;
+  color: #eafaf7;
+  background: rgba(5, 7, 6, 0.94);
+  box-shadow: var(--shadow);
+  transform: rotate(-2deg);
+  animation: floatCard 8s ease-in-out infinite;
+}
+/* Display the fake window dots. */
+.dot-row {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+/* Style each fake window dot. */
+.dot-row i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-2);
+}
+/* Style code text inside the card. */
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 0.92rem;
+}
+/* Build the timeline grid. */
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+/* Style timeline step cards. */
+.timeline-item {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(22, 28, 26, 0.96), rgba(10, 14, 13, 0.96));
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.26);
+  transition: transform 0.8s ease, border-color 0.8s ease;
+}
+.timeline-item:hover {
+  transform: translateY(-7px);
+  border-left-color: var(--accent-2);
+}
+/* Style timeline step numbers. */
+.timeline-item span {
+  display: block;
+  margin-bottom: 38px;
+  color: var(--accent);
+  font-weight: 800;
+}
+/* Style timeline text. */
+.timeline-item p {
+  margin: 16px 0 0;
+  color: var(--muted);
+}
+/* Build the final contact section. */
+.contact {
+  color: var(--white);
+}
+/* Give the standalone contact page enough height below the fixed header. */
+.contact-page {
+  min-height: 100vh;
+  padding-top: 56px;
+}
+/* Position the contact image behind content. */
+.contact-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+/* Darken the contact image. */
+.contact-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(3, 5, 5, 0.96), rgba(3, 5, 5, 0.82));
+  z-index: 0;
+}
+/* Layout contact text and form. */
+.contact-layout {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(30px, 6vw, 72px);
+  align-items: center;
+  padding: 112px 0;
+}
+/* Style the contact copy. */
+.contact-copy p:not(.eyebrow) {
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 1.05rem;
+}
+/* Arrange contact details. */
+.contact-details {
+  display: grid;
+  gap: 8px;
+  margin-top: 30px;
+  font-weight: 800;
+}
+/* Highlight contact email. */
+.contact-details a {
+  color: #9ffbf0;
+}
+/* Style the WhatsApp contact link as a clear button. */
+.whatsapp-button {
+  display: inline-flex;
+  width: max-content;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(0, 224, 199, 0.28);
+  border-radius: 8px;
+  color: var(--deep) !important;
+  background: linear-gradient(135deg, #25d366, #b8fff5);
+  box-shadow: 0 14px 34px rgba(37, 211, 102, 0.2);
+  transition: transform 0.75s ease, box-shadow 0.75s ease;
+}
+/* Lift the WhatsApp button when hovered. */
+.whatsapp-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 42px rgba(37, 211, 102, 0.28);
+}
+/* Build the contact form grid. */
+.contact-form {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid rgba(0, 224, 199, 0.22);
+  border-radius: 8px;
+  background: rgba(5, 7, 6, 0.62);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
+}
+/* Create responsive portal form and dashboard columns. */
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  padding-bottom: 108px;
+}
+/* Style login, signup, and empty-state panels. */
+.portal-card {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 16px;
+  padding: 26px;
+  border: 1px solid rgba(0, 224, 199, 0.18);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(22, 28, 26, 0.96), rgba(10, 14, 13, 0.96));
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.25);
+  transition: transform 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+}
+.portal-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0, 224, 199, 0.42);
+  box-shadow: var(--shadow);
+}
+/* Keep portal card copy readable. */
+.portal-card p {
+  margin: 0;
+  color: var(--muted);
+}
+/* Hide private admin areas until they are needed. */
+.is-hidden {
+  display: none !important;
+}
+/* Make the owner reveal button almost invisible. */
+.hidden-admin-trigger {
+  justify-self: end;
+  width: 18px;
+  height: 18px;
+  border: 0;
+  color: transparent;
+  background: transparent;
+  cursor: pointer;
+}
+/* Layout the My Work dashboard. */
+.portal-work {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.7fr);
+  gap: 20px;
+  padding-bottom: 108px;
+}
+/* Stack project request cards. */
+.project-list {
+  display: grid;
+  gap: 18px;
+}
+/* Style portal project cards. */
+.portal-project {
+  min-height: 0;
+}
+/* Style missing project links. */
+.empty-link {
+  color: var(--muted);
+  font-weight: 800;
+}
+/* Style the private admin project editor. */
+.admin-panel {
+  grid-column: 1 / -1;
+  padding: 26px;
+  border: 1px solid rgba(255, 90, 61, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 90, 61, 0.08);
+}
+/* Keep admin panel copy readable. */
+.admin-panel p {
+  color: var(--muted);
+}
+/* Style the always-visible email marketing suggestion. */
+.email-marketing-panel {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  padding: 26px;
+  border: 1px solid rgba(0, 224, 199, 0.18);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(12, 18, 17, 0.96), rgba(5, 7, 6, 0.96)),
+    var(--deep);
+  box-shadow: var(--shadow);
+}
+/* Keep email panel paragraphs tidy. */
+.email-marketing-panel p {
+  margin: 0;
+  color: var(--muted);
+}
+/* Layout the simple email marketing charts. */
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+/* Style each chart metric. */
+.chart-grid article {
+  min-height: 104px;
+  display: grid;
+  align-content: end;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(0, 224, 199, 0.18), rgba(0, 224, 199, 0.04));
+}
+/* Make chart values stand out. */
+.chart-grid strong {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.55rem;
+}
+/* Keep chart labels compact. */
+.chart-grid span {
+  color: var(--muted);
+  font-weight: 800;
+  font-size: 0.78rem;
+}
+/* Style the sample email block. */
+.email-example {
+  padding: 18px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+/* Keep example email headings compact. */
+.email-example h3 {
+  margin-bottom: 10px;
+}
+/* Make full-width form rows span both columns. */
+.full {
+  grid-column: 1 / -1;
+}
+/* Stack labels and controls. */
+label {
+  display: grid;
+  gap: 8px;
+  font-weight: 800;
+}
+/* Style form label text. */
+label span {
+  font-size: 0.88rem;
+}
+/* Style shared form controls. */
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid rgba(0, 224, 199, 0.2);
+  border-radius: 8px;
+  padding: 14px 15px;
+  color: var(--white);
+  background: rgba(8, 12, 11, 0.74);
+  font: inherit;
+  outline: none;
+  transition: border-color 0.75s ease, box-shadow 0.75s ease, background 0.75s ease;
+}
+/* Keep dropdown options readable. */
+select option {
+  color: #111315;
+}
+/* Set a comfortable message box height. */
+textarea {
+  min-height: 132px;
+  resize: vertical;
+}
+/* Style placeholder text. */
+::placeholder {
+  color: rgba(255, 255, 255, 0.56);
+}
+/* Highlight focused form controls. */
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(0, 224, 199, 0.16);
+  background: rgba(5, 7, 6, 0.86);
+}
+/* Style backend response text. */
+.form-status {
+  min-height: 24px;
+  margin: 0;
+  color: #9ffbf0;
+  font-weight: 800;
+}
+/* Style the footer. */
+.site-footer {
+  padding: 26px clamp(16px, 4vw, 48px);
+  color: rgba(255, 255, 255, 0.72);
+  background: var(--deep);
+  border-top: 1px solid rgba(0, 224, 199, 0.14);
+}
+/* Place shortcuts and socials above the footer. */
+.pre-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 38px 0;
+  border-top: 1px solid rgba(0, 224, 199, 0.12);
+}
+/* Layout shortcut links beside social links. */
+.shortcut-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+/* Style shortcut links to match the dark interface. */
+.shortcut-links a {
+  padding: 8px 11px;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.04);
+  font-weight: 800;
+  transition: transform 0.75s ease, color 0.75s ease, background 0.75s ease;
+}
+/* Animate shortcut links on hover. */
+.shortcut-links a:hover {
+  color: #9ffbf0;
+  background: rgba(0, 224, 199, 0.1);
+  transform: translateY(-2px);
+}
+/* Layout footer content with credits on the left. */
+.footer-shell {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  font-size: 0.92rem;
+}
+/* Keep footer paragraphs tidy. */
+.footer-shell p {
+  margin: 0;
+}
+/* Make the credits visibly left aligned. */
+.credits {
+  text-align: left;
+}
+/* Layout footer social placeholders. */
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+/* Style each social placeholder link. */
+.social-links a {
+  padding: 8px 11px;
+  border: 1px solid rgba(0, 224, 199, 0.22);
+  border-radius: 8px;
+  color: #9ffbf0;
+  background:
+    linear-gradient(135deg, rgba(0, 224, 199, 0.1), rgba(255, 90, 61, 0.06)),
+    rgba(0, 224, 199, 0.06);
+  font-weight: 800;
+  transition: transform 0.75s ease, border-color 0.75s ease, background 0.75s ease, color 0.75s ease;
+}
+/* Animate social links on hover. */
+.social-links a:hover {
+  color: var(--white);
+  transform: translateY(-4px);
+  border-color: rgba(0, 224, 199, 0.58);
+  background: rgba(0, 224, 199, 0.16);
+}
+/* Add spacing around the website links section. */
+.projects {
+  padding: 108px 0;
+}
+/* Build the website links grid. */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+/* Style each editable website link card. */
+.project-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(22, 28, 26, 0.96), rgba(10, 14, 13, 0.96));
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.24);
+  transition: transform 0.9s ease, border-color 0.9s ease, box-shadow 0.9s ease;
+}
+/* Make the live highlighted project feel more finished. */
+.featured-project {
+  background:
+    linear-gradient(145deg, rgba(0, 224, 199, 0.18), rgba(255, 90, 61, 0.1)),
+    linear-gradient(180deg, rgba(22, 28, 26, 0.98), rgba(10, 14, 13, 0.98));
+}
+/* Lift project cards when hovered. */
+.project-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(0, 224, 199, 0.45);
+  box-shadow: var(--shadow);
+}
+/* Style project card labels. */
+.project-card span {
+  color: var(--accent);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+}
+/* Style project card titles. */
+.project-card strong {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.45rem;
+  line-height: 1.12;
+}
+/* Style project card descriptions. */
+.project-card p {
+  margin: 0;
+  color: var(--muted);
+}
+/* Style visible live URLs on project cards. */
+.project-card em {
+  width: max-content;
+  max-width: 100%;
+  padding: 7px 10px;
+  border-radius: 8px;
+  color: var(--deep);
+  background: var(--accent);
+  font-style: normal;
+  font-weight: 900;
+}
+/* Arrange extra website imagery in a polished strip. */
+.image-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  padding: 0 0 108px;
+}
+/* Style each image in the visual proof strip. */
+.image-strip img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid rgba(0, 224, 199, 0.18);
+  border-radius: 8px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.26);
+  filter: saturate(1.05) contrast(1.05);
+  transition: transform 0.9s ease, border-color 0.9s ease;
+}
+/* Lift proof strip images when hovered. */
+.image-strip img:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0, 224, 199, 0.45);
+}
+/* Initial state for scroll reveal animations. */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+/* Active state for visible animated elements. */
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Animate the floating code card gently. */
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-14px) rotate(1deg); }
+}
+/* Slide the homepage text in from the left. */
+@keyframes slideInText {
+  0% { opacity: 0; transform: translateX(-44px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+/* Float the homepage side image gently. */
+@keyframes imageDrift {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(1deg); }
+}
+/* Animate the small text brand mark. */
+@keyframes markPulse {
+  0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 0 24px rgba(0, 224, 199, 0.18); }
+  50% { transform: translateY(-2px) scale(1.04); box-shadow: 0 0 44px rgba(0, 224, 199, 0.38); }
+}
+/* Respect visitors who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/* Adapt layout for tablets. */
+@media (max-width: 980px) {
+  .nav-links { display: none; }
+  .brand-name { max-width: 190px; }
+  .service-grid { grid-template-columns: repeat(2, 1fr); }
+  .compact-grid { grid-template-columns: repeat(2, 1fr); }
+  .project-grid { grid-template-columns: 1fr; }
+  .image-strip { grid-template-columns: 1fr; }
+  .portal-grid { grid-template-columns: 1fr; }
+  .portal-work { grid-template-columns: 1fr; }
+  .hero-split { grid-template-columns: 1fr; }
+  .hero-visual { max-width: 460px; }
+  .work-layout,
+  .contact-layout { grid-template-columns: 1fr; }
+  .showcase > img { width: 100%; }
+  .timeline { grid-template-columns: 1fr; }
+}
+/* Adapt layout for phones. */
+@media (max-width: 640px) {
+  .site-header { padding: 12px; }
+  .nav-shell { gap: 12px; }
+  .nav-cta { display: none; }
+  .hero { min-height: 92vh; padding-top: 118px; }
+  .hero-visual img { aspect-ratio: 16 / 11; }
+  .hero-metrics { grid-template-columns: 1fr; }
+  .hero-metrics article { border-right: 0; border-bottom: 0; }
+  .hero-metrics article:last-child { border-bottom: 0; }
+  .service-grid { grid-template-columns: 1fr; }
+  .compact-grid { grid-template-columns: 1fr; }
+  .chart-grid { grid-template-columns: 1fr; }
+  .contact-form { grid-template-columns: 1fr; }
+  .footer-shell { flex-direction: column; }
+  .pre-footer { align-items: flex-start; flex-direction: column; }
+  .social-links { justify-content: flex-start; }
+  .project-card em { width: 100%; text-align: center; }
+  .showcase { min-height: 420px; }
+  .showcase > img { height: 420px; }
+}
+
+/* Professional visual system refresh. */
+:root {
+  --paper: #f4f7f3;
+  --ink: #17201d;
+  --muted: #64716b;
+  --white: #ffffff;
+  --line: #dce5df;
+  --accent: #167a62;
+  --accent-2: #e37b42;
+  --deep: #12201b;
+  --panel: #ffffff;
+  --panel-2: #eef3ef;
+  --shadow: 0 18px 50px rgba(23, 32, 29, 0.10);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 16px;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: .28;
+  background-image: radial-gradient(rgba(22, 122, 98, .12) .6px, transparent .6px);
+  background-size: 18px 18px;
+  mask-image: linear-gradient(to bottom, black, transparent 72%);
+}
+
+.cursor-glow { display: none; }
+
+.site-header {
+  padding: 16px clamp(16px, 4vw, 48px);
+}
+
+.nav-shell {
+  max-width: 1240px;
+  padding: 10px 14px;
+  border: 1px solid rgba(23, 32, 29, .10);
+  border-radius: 10px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, .88);
+  box-shadow: 0 10px 30px rgba(23, 32, 29, .06);
+  backdrop-filter: blur(16px);
+}
+
+.brand { color: var(--ink); }
+.brand-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  color: var(--white);
+  background: var(--deep);
+  box-shadow: none;
+  animation: none;
+}
+.brand-name { max-width: none; }
+
+.nav-links { color: var(--muted); }
+.nav-links a { transition-duration: .2s; }
+.nav-links a:hover { color: var(--accent); transform: none; }
+.nav-links a::after { background: var(--accent); transition-duration: .2s; }
+.nav-links .nav-portal {
+  color: var(--white);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.nav-links .nav-portal:hover { color: var(--white); background: #0f654f; }
+
+.hero {
+  min-height: 760px;
+  padding-top: 150px;
+  padding-bottom: 62px;
+}
+.hero-overlay {
+  background: linear-gradient(90deg, rgba(8, 17, 14, .94), rgba(8, 17, 14, .68) 55%, rgba(8, 17, 14, .32));
+}
+.hero-bg { filter: saturate(.78) brightness(.72); }
+body.is-scrolled .hero-bg { filter: saturate(.78) brightness(.62); transform: scale(1.02); }
+.hero-content { animation: none; }
+.hero-visual img {
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, .25);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .28);
+}
+.hero-visual:hover img { transform: none; }
+
+h1, h2, h3 { color: var(--ink); }
+.hero h1, .contact h1, .dark-panel h1 { color: var(--white); }
+h1 { font-size: clamp(3rem, 6.8vw, 5.8rem); line-height: .98; }
+h2 { font-size: clamp(2rem, 4.2vw, 3.5rem); line-height: 1.02; }
+h3 { font-size: 1.25rem; }
+.eyebrow { color: #bfe9dd; letter-spacing: .11em; }
+.eyebrow.dark { color: var(--accent); }
+.hero-copy { color: rgba(255, 255, 255, .78); }
+.page-hero { padding-top: 156px; padding-bottom: 66px; }
+.page-hero .hero-copy { color: var(--muted); }
+
+.button {
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 6px;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.button.primary {
+  color: var(--white);
+  background: var(--accent);
+  box-shadow: 0 10px 24px rgba(22, 122, 98, .18);
+}
+.button.primary::after { display: none; }
+.button.ghost {
+  color: var(--ink);
+  border-color: rgba(23, 32, 29, .18);
+  background: transparent;
+}
+.hero .button.ghost, .contact .button.ghost, .dark-panel .button.ghost { color: var(--white); border-color: rgba(255, 255, 255, .35); }
+.button:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(23, 32, 29, .12); }
+
+.services, .process { padding: 92px 0; }
+.section-heading { margin-bottom: 34px; }
+.section-heading p:last-child { color: var(--muted); }
+.service-grid, .compact-grid { gap: 16px; }
+.service-card, .reason-card, .help-card, .package-card, .portal-card, .project-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--white);
+  box-shadow: 0 8px 26px rgba(23, 32, 29, .04);
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.service-card { min-height: 270px; padding: 24px; }
+.service-card::before, .project-card::before, .portal-card::before, .contact-form::before, .admin-panel::before, .email-marketing-panel::before { display: none; }
+.service-card:hover, .reason-card:hover, .help-card:hover, .package-card:hover, .portal-card:hover, .project-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(22, 122, 98, .38);
+  box-shadow: var(--shadow);
+}
+.compact-grid:has(.service-card:hover) .service-card { opacity: 1; transform: none; }
+.compact-grid:has(.service-card:hover) .service-card:hover { transform: translateY(-4px); }
+.service-icon {
+  width: 42px;
+  height: 42px;
+  margin-bottom: 46px;
+  border-radius: 6px;
+  color: var(--white);
+  background: var(--accent);
+}
+.service-card p, .reason-card p, .help-card p, .package-card p { color: var(--muted); }
+.hero-metrics strong { color: var(--white); }
+.hero-metrics span { color: rgba(255, 255, 255, .68); }
+
+.selected-work, .why-section, .who-section, .about-preview, .about-detail { padding-bottom: 92px; }
+.case-card, .about-layout {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: 0 8px 28px rgba(23, 32, 29, .04);
+}
+.case-card img, .about-layout img { border-radius: 6px; }
+.feature-list li { color: var(--ink); }
+.feature-list li::before { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: none; }
+.reason-card, .help-card, .package-card { padding: 24px; }
+.reason-card span { color: var(--accent); }
+.package-card { min-height: 500px; }
+.featured-package { border-color: rgba(22, 122, 98, .48); background: #edf7f2; }
+.price { color: var(--accent); }
+.section-cta, .final-cta-panel {
+  border: 1px solid #c8ded5;
+  border-radius: 8px;
+  background: #e8f2ed;
+}
+.final-cta-panel h2 { max-width: 780px; }
+
+.dark-panel { background: var(--deep); }
+.work-layout { padding: 126px 0 108px; }
+.work-copy p:not(.eyebrow) { color: rgba(255, 255, 255, .72); }
+.showcase > img { border-radius: 8px; filter: saturate(.7); }
+.code-card { border-radius: 8px; background: #eef3ef; color: var(--ink); box-shadow: 0 18px 45px rgba(0, 0, 0, .28); }
+.timeline { gap: 14px; }
+.timeline-item { border-left-color: #c6d8cf; }
+.timeline-item:hover { transform: translateX(5px); border-color: var(--accent); }
+.timeline-item span { color: var(--accent); }
+.timeline-item p { color: var(--muted); }
+
+.contact-page { min-height: 900px; padding-top: 160px; }
+.contact-overlay { background: linear-gradient(90deg, rgba(8, 17, 14, .95), rgba(8, 17, 14, .76)); }
+.contact-copy p:not(.eyebrow) { color: rgba(255, 255, 255, .74); }
+.contact-details a { color: #bfe9dd; }
+.whatsapp-button { background: var(--accent); }
+.contact-form, .admin-panel, .email-marketing-panel {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: var(--shadow);
+}
+.contact-form label span, .portal-card label span { color: var(--ink); }
+input, select, textarea { border-color: #d3dfd9; border-radius: 5px; color: var(--ink); background: #fbfdfb; }
+input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(22, 122, 98, .12); }
+.portal-grid { padding-bottom: 96px; }
+.portal-card { padding: 28px; }
+.portal-card p, .admin-panel p, .email-marketing-panel p { color: var(--muted); }
+.portal-card h2, .admin-panel h2, .email-marketing-panel h2 { color: var(--ink); }
+.admin-panel, .email-marketing-panel { background: var(--white); }
+.chart-grid article { background: var(--panel-2); }
+.email-example { border-color: var(--line); background: #fbfdfb; }
+
+.projects { padding: 92px 0; }
+.case-study { border-color: var(--line); border-radius: 8px; background: var(--white); box-shadow: 0 8px 26px rgba(23, 32, 29, .04); }
+.case-study:hover { transform: translateY(-4px); border-color: rgba(22, 122, 98, .38); box-shadow: var(--shadow); }
+.case-study h4 { color: var(--accent); }
+.tech-list span { border-color: var(--line); color: var(--muted); background: var(--panel-2); }
+.image-strip img { border-radius: 8px; filter: saturate(.7); }
+
+.pre-footer { padding-top: 28px; padding-bottom: 28px; border-top: 1px solid var(--line); }
+.shortcut-links, .social-links { color: var(--muted); }
+.shortcut-links a {
+  color: var(--muted);
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+.shortcut-links a:hover { color: var(--accent); background: #edf7f2; }
+.social-links a {
+  color: var(--accent);
+  border-color: #b9d8cc;
+  background: #edf7f2;
+}
+.social-links a:hover { color: var(--deep); background: #d7eee5; }
+.shortcut-links a:hover, .social-links a:hover { color: var(--accent); }
+.site-footer { background: var(--deep); }
+.footer-shell, .footer-shell p { color: rgba(255, 255, 255, .68); }
+.form-status { color: var(--accent); }
+input:focus, select:focus, textarea:focus { background: var(--white); }
+
+.reveal { opacity: 1; transform: translateY(16px); transition-duration: .5s; }
+.reveal.is-visible { transform: translateY(0); }
+
+.menu-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  background: var(--white);
+  font: inherit;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+@media (max-width: 860px) {
+  .menu-toggle { display: inline-grid; place-items: center; }
+  .nav-shell { position: relative; flex-wrap: wrap; }
+  .nav-links { display: none; width: 100%; padding: 10px 4px 4px; flex-direction: column; align-items: stretch; gap: 4px; }
+  .nav-links.is-open { display: flex; }
+  .nav-links a { padding: 10px 8px; }
+  .nav-links .nav-portal { text-align: center; }
+  .hero-split, .work-layout, .contact-layout { grid-template-columns: 1fr; }
+  .hero-visual { max-width: 430px; }
+  .hero { min-height: auto; padding-top: 150px; }
+  .contact-page { min-height: auto; padding-bottom: 80px; }
+  .contact-form { margin-top: 20px; }
+  .service-grid, .compact-grid, .reason-grid, .help-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .package-grid { grid-template-columns: 1fr; }
+  .package-card { min-height: auto; }
+}
+
+@media (max-width: 560px) {
+  .site-header { padding: 10px 10px; }
+  .nav-shell { padding: 8px 10px; }
+  .brand-name { font-size: .94rem; }
+  .brand-mark { width: 36px; height: 36px; }
+  h1 { font-size: clamp(2.65rem, 13vw, 4rem); }
+  h2 { font-size: 2.05rem; }
+  .page-hero { padding-top: 132px; padding-bottom: 44px; }
+  .hero { padding: 132px 16px 38px; }
+  .hero-actions, .section-cta { align-items: stretch; flex-direction: column; }
+  .hero-actions .button, .section-cta .button { width: 100%; }
+  .service-grid, .compact-grid, .reason-grid, .help-grid, .portal-grid { grid-template-columns: 1fr; }
+  .hero-metrics { grid-template-columns: 1fr; gap: 12px; }
+  .case-card, .about-layout { grid-template-columns: 1fr; }
+  .case-card, .about-layout, .portal-card { padding: 14px; }
+  .showcase { min-height: 360px; }
+  .showcase > img { height: 360px; }
+  .code-card { left: 8px; right: 8px; bottom: 8px; }
+  .contact-layout { width: min(100% - 24px, 1180px); }
+  .contact-form { padding: 16px; }
+  .contact-form label { grid-column: span 2; }
+  .contact-form .full { grid-column: span 2; }
+  .pre-footer { display: grid; gap: 22px; }
+  .shortcut-links, .social-links { flex-wrap: wrap; }
+}

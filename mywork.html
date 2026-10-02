@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!-- Tell the browser this is a modern HTML document. -->
+<html lang="en">
+<!-- Start the My Work page. -->
+<head>
+  <!-- Support standard text characters. -->
+  <meta charset="UTF-8" />
+  <!-- Make the page responsive. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Describe the My Work page. -->
+  <meta name="description" content="View Saniweb project progress, updates, links, and growth suggestions." />
+  <!-- Set the page title. -->
+  <title>My Work | Sanele Mazibuko</title>
+  <!-- Connect to Google Fonts. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <!-- Connect to the font asset host. -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Load the font pairing. -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <!-- Load shared styles. -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<!-- End the setup area. -->
+<body>
+  <!-- Add the animated pointer glow. -->
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <!-- Add the shared header. -->
+  <header class="site-header"><nav class="nav-shell" aria-label="Main navigation"><a class="brand" href="index.html" aria-label="Sanele Mazibuko home"><span class="brand-mark">SM</span><span class="brand-name">Sanele Mazibuko</span></a><div class="nav-links"><a href="index.html">Home</a><a href="services.html">Services</a><a href="work.html">Work</a><a href="process.html">Process</a><a href="about.html">About</a><a href="contact.html">Contact</a><a class="nav-portal" href="login.html">Client Portal</a></div></nav></header>
+  <!-- Start the portal content. -->
+  <main>
+    <!-- Add the portal hero. -->
+    <section class="page-hero section-wrap reveal">
+      <!-- Label the page. -->
+      <p class="eyebrow dark">My Work</p>
+      <!-- Add the page headline. -->
+      <h1>Your project progress, links, and next growth move.</h1>
+      <!-- Add a status line for the current user. -->
+      <p class="hero-copy" id="portalIntro">Login to view your work.</p>
+      <!-- Add a logout action. -->
+      <button class="button ghost" id="logoutButton" type="button">Logout</button>
+    </section>
+    <!-- Add the project and email marketing portal. -->
+    <section class="portal-work section-wrap no-top">
+      <!-- Show project request cards here. -->
+      <div class="project-list" id="projectList"></div>
+      <!-- Show admin project editor here. -->
+      <div class="admin-panel is-hidden" id="adminPanel">
+        <!-- Add the admin editor title. -->
+        <h2>Admin Progress Upload</h2>
+        <!-- Explain the editor. -->
+        <p>Paste a live preview, design board, staging link, or progress URL so the client can click and view updates.</p>
+        <!-- Add the admin update form. -->
+        <form class="contact-form" id="adminProjectForm">
+          <!-- Collect the project id. -->
+          <label><span>Project ID</span><input name="id" type="text" placeholder="Paste project ID" required /></label>
+          <!-- Collect the current status. -->
+          <label><span>Status</span><input name="status" type="text" placeholder="In design, in build, launched..." /></label>
+          <!-- Collect the progress link. -->
+          <label class="full"><span>Progress Link</span><input name="progressLink" type="url" placeholder="https://example.com/progress" /></label>
+          <!-- Collect the admin note. -->
+          <label class="full"><span>Update Note</span><textarea name="adminNote" placeholder="Short update for the client"></textarea></label>
+          <!-- Submit the update. -->
+          <button class="button primary full" type="submit">Save Progress Update</button>
+          <!-- Show the admin form status. -->
+          <p class="form-status" id="adminProjectStatus" role="status"></p>
+        </form>
+      </div>
+      <!-- Always show email marketing as a smart suggestion. -->
+      <aside class="email-marketing-panel reveal">
+        <!-- Label the suggestion. -->
+        <p class="eyebrow dark">Suggested Growth Add-On</p>
+        <!-- Add the suggestion title. -->
+        <h2>Email marketing that keeps customers coming back.</h2>
+        <!-- Explain the example. -->
+        <p>I can create welcome emails, promotional campaigns, reminders, and monthly reports so your customers keep hearing from your brand after they visit the website.</p>
+        <!-- Show simple example charts. -->
+        <div class="chart-grid" id="chartGrid"></div>
+        <!-- Show an email marketing example. -->
+        <div class="email-example" id="emailExample"></div>
+        <!-- Add a button to request email marketing. -->
+        <a class="button primary" href="contact.html">Request Email Marketing</a>
+      </aside>
+    </section>
+  </main>
+  <!-- Add shortcut and social links above the footer. -->
+  <section class="pre-footer section-wrap"><div class="shortcut-links" aria-label="Shortcut links"><a href="index.html">Home</a><a href="services.html">Services</a><a href="work.html">Work</a><a href="process.html">Process</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="login.html">Client Portal</a></div><div class="social-links" aria-label="Social links"><a href="https://pin.it/64vM7cFOm" target="_blank" rel="noopener">Pinterest</a><a href="https://www.instagram.com/might.be.sani?stkn=MWJxbGgycHRqeTBucQ==" target="_blank" rel="noopener">Instagram</a><a href="https://github.com/Manqoba275" target="_blank" rel="noopener">GitHub</a></div></section>
+  <!-- Add the shared footer. -->
+  <footer class="site-footer"><div class="footer-shell"><p>Email: s.manqobamazibuko@gmail.com | Cell: 068 250 8384</p><p>Sanele Mazibuko | Tembisa, Gauteng, South Africa | &copy; 2026</p></div></footer>
+  <!-- Load shared scripts. -->
+  <script src="script.js"></script>
+  <!-- Load portal scripts. -->
+  <script src="mywork.js"></script>
+</body>
+<!-- End the My Work page. -->
+</html>
